@@ -42,7 +42,7 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
             // THIS ANSWER MATCHES TO FUNCTION 1 BELOW ON LINE 59
             if (key.startorexit === 'View Inventory') {
-               function1();
+               viewInventory();
             }
 
             // THIS ANSWER EXITS THE PROGRAM
@@ -50,15 +50,15 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
                 connection.end();
             }
 
-            // THIS ANSWER MATCHES TO FUNCTION 2 BELOW ON LINE ##
+            // THIS ANSWER MATCHES TO FUNCTION 3 BELOW ON LINE ##
             else {
                 function3();
             }
-          });
+        });
     };
 
     // START FUNCTION 1
-    function function1() {
+    function viewInventory() {
         var query = "SELECT * FROM products";
         connection.query(query, function(err, res) {
             if (err) throw err;
@@ -75,14 +75,58 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
                 ); 
             };
             console.log(table.toString());
+            purchaseProduct();
         });
     };
     // END FUNCTION 1
 
     // BEGIN FUNCTION 2
-    function function2() {
-   
-    }
+    function purchaseProduct() {
+        var chosenItem;
+        var chosenUnits;
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "itemid",
+                message: "\nPlease indicate the ID of the product you would like to buy:",
+            },
+            {
+                type: "input",
+                name: "itemunits",
+                message: "\nPlease indicate the # of units you would like to buy:",
+            }
+        // FIGURE OUT WHAT FUNCTION TO RUN
+        ]).then(function(key) {
+            var query = "SELECT * FROM products WHERE ?";
+            connection.query(query, {item_id: key.itemid}, function(err, res) {
+                var chosenProduct = res[0].product_name;
+                var currentUnits = res[0].stock_quantity;
+                chosenItem = key.itemid;
+                chosenUnits = key.itemunits;
+
+                if (err) throw err;
+
+                if (currentUnits < chosenUnits) {
+                    console.log('Sorry! Not Enough Inventory!');
+                    purchaseProduct();
+                }
+                else {
+                    var newUnits = currentUnits - chosenUnits;
+                    var query = "UPDATE products SET stock_quantity = " + newUnits + "  WHERE item_id = " + chosenItem;
+                    connection.query(query, function(err, res) {
+                    if (err) throw err;
+                    console.log(res);
+                    console.log("\nPurchase Processed!\n");
+                    console.log("=====================\n");
+                    console.log("Your Order Details: \nYou Purchased: " + chosenUnits + "x " + chosenProduct + "!" + "\n");
+                    console.log("=====================\n");
+                    console.log("New Product Quantity Brakdown:\n");
+                    });
+                    viewInventory();
+                };
+            });
+        });
+    };
     // END FUNCTION 2
 
     // BEGIN FUNCTION 3
