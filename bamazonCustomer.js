@@ -19,7 +19,7 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
     connection.connect(function(err) {
         if (err) throw err;
         console.log("You're connected!!\nConnected as id " + connection.threadId);
-        // inquireStart();
+        inquireStart();
     });
 
     // KICKING IT ALL OFF
@@ -28,48 +28,37 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
         inquirer.prompt([
             {
                 type: "list",
-                name: "",
+                name: "startorexit",
                 message: "?",
-                choices: ["choice 1",
-                "choice 2",
-                "choice 3",
-                "choice 4"
+                choices: ["View Inventory",
+                "Exit",
+                "Read me a Bedtime Story?"
                 ]
             }
         // FIGURE OUT WHAT FUNCTION TO RUN
         ]).then(function(key) {
-            console.log(key.name);
+            console.log(key.startorexit);
 
-            // QUERY 1 MATCHES TO FUNCTION 1 BELOW ON LINE 79
-            if (key.name === 'choice *') {
+            // THIS ANSWER MATCHES TO FUNCTION 1 BELOW ON LINE 59
+            if (key.startorexit === 'View Inventory') {
                function1();
             }
 
-            // QUERY 2 MATCHES TO FUNCTION 2 BELOW ON LINE ##
-            else if (key.name === 'choice *') {
-                function2();
+            // THIS ANSWER EXITS THE PROGRAM
+            else if (key.startorexit === 'Exit') {
+                connection.end();
             }
 
-            // QUERY 3 MATCHES TO FUNCTION 3 BELOW ON LINE ##
-            else if (key.name === 'choice *') {
-                function3();
-            }
-
-            // QUERY 4 MATCHES TO FUNCTION 4 BELOW ON LINE ##
-            else if (key.name === 'choice *') {
-            function4();
-            }
-
+            // THIS ANSWER MATCHES TO FUNCTION 2 BELOW ON LINE ##
             else {
-            console.log("Thanks for stopping by!!")
-            connection.end();
+                function3();
             }
           });
     };
 
     // START FUNCTION 1
-    function function1(artistName) {
-
+    function function1() {
+        
     };
     // END FUNCTION 1
 
