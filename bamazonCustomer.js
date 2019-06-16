@@ -25,7 +25,7 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
     // KICKING IT ALL OFF
     function inquireStart() {
-        console.log("\nWelcome to the Bamazon Inventory Management App!\n");
+        console.log("\n~ Welcome to the Bamazon Inventory Management App! ~\n~ Press Ctrl + c at any time to exit ~\n");
         inquirer.prompt([
             {
                 type: "list",
@@ -101,6 +101,7 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
             connection.query(query, {item_id: key.itemid}, function(err, res) {
                 var chosenProduct = res[0].product_name;
                 var currentUnits = res[0].stock_quantity;
+                var currentPrice = res[0].price;
                 chosenItem = key.itemid;
                 chosenUnits = key.itemunits;
 
@@ -116,9 +117,11 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
                     connection.query(query, function(err, res) {
                     if (err) throw err;
                     console.log(res);
-                    console.log("\nPurchase Processed!\n");
-                    console.log("=====================\n");
-                    console.log("Your Order Details: \nYou Purchased: " + chosenUnits + "x " + chosenProduct + "!" + "\n");
+                    console.log("\nPurchase Processed!");
+                    console.log("=====================");
+                    console.log("Your Order Details:\n");
+                    console.log("You Purchased: " + chosenUnits + "x " + chosenProduct + "!" + "\n");
+                    console.log("Your total cost was: $" + (currentPrice * chosenUnits) + " dollars.");
                     console.log("=====================\n");
                     console.log("New Product Quantity Brakdown:\n");
                     });
@@ -131,13 +134,7 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
     // BEGIN FUNCTION 3
     function function3() {
-        console.log("Goodnight Moon by Margaret Wise Brown…\n In the great green room\n There was a telephone\n And a red balloon\n And a picture ofThe cow jumping over the moon\n And there were three little bears sitting on chairs\n And two little kittens and a pair of mittens\n And a little toy house\n And a young mouse\n And a comb and a brush and a bowl full of mush\n And a quiet old lady who was whispering “hush”\n Goodnight room\n Goodnight moon\n Goodnight cow jumping over the moon\n Goodnight light And the red balloon\n Goodnight bears\n Goodnight chairs\n Goodnight kittens And goodnight mittens\n Goodnight clocks And goodnight socks\n Goodnight little house And goodnight mouse\n Goodnight comb And goodnight brush\n Goodnight nobody\n Goodnight mush\n And goodnight to the old lady whispering “hush”\n Goodnight stars\n Goodnight air\n Good night noises everywhere");
+        console.log("\n\nGoodnight Moon by Margaret Wise Brown…\n In the great green room\n There was a telephone\n And a red balloon\n And a picture ofThe cow jumping over the moon\n And there were three little bears sitting on chairs\n And two little kittens and a pair of mittens\n And a little toy house\n And a young mouse\n And a comb and a brush and a bowl full of mush\n And a quiet old lady who was whispering “hush”\n Goodnight room\n Goodnight moon\n Goodnight cow jumping over the moon\n Goodnight light And the red balloon\n Goodnight bears\n Goodnight chairs\n Goodnight kittens And goodnight mittens\n Goodnight clocks And goodnight socks\n Goodnight little house And goodnight mouse\n Goodnight comb And goodnight brush\n Goodnight nobody\n Goodnight mush\n And goodnight to the old lady whispering “hush”\n Goodnight stars\n Goodnight air\n Good night noises everywhere");
     };
     // END FUNCTION 3
-
-    // BEGIN FUNCTION 4
-    function function4() {
-
-    };
-    // END FUNCTION 4
 });
