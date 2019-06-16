@@ -1,4 +1,7 @@
+DROP DATABASE IF EXISTS bamazon_db;
+
 CREATE DATABASE bamazon_db;
+
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'curb3436ale7770dog!';
 
 CREATE TABLE products(
