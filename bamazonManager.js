@@ -20,12 +20,13 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
     connection.connect(function(err) {
         if (err) throw err;
         // console.log("You're connected!!\nConnected as id " + connection.threadId);
+        console.clear();
+        console.log("\n~ Welcome to the Bamazon Inventory Management App! ~\n~ Press Ctrl + c at any time to exit ~\n");
         inquireStart();
     });
 
     // KICKING IT ALL OFF
     function inquireStart() {
-        console.log("\n~ Welcome to the Bamazon Inventory Management App! ~\n~ Press Ctrl + c at any time to exit ~\n");
         inquirer.prompt([
             {
                 type: "list",
@@ -45,19 +46,23 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
             // THIS ANSWER MATCHES TO FUNCTION 1
             if (key.startorexit === 'View Products for Sale') {
-               viewInventory();
+                console.clear();
+                viewInventory();
             }
 
             // THIS ANSWER MATCHES TO FUNCTION 2
             else if (key.startorexit === 'View Low Inventory') {
+                console.clear();
                 viewLowInventory();
             }
             // THIS ANSWER MATCHES TO FUNCTION 3
             else if (key.startorexit === 'Add to Inventory') {
+                console.clear();
                 addToInventory();
             }
             // THIS ANSWER MATCHES TO FUNCTION 4
             else if (key.startorexit === 'Add New Product') {
+                console.clear();
                 addNewProduct();
             }
 
