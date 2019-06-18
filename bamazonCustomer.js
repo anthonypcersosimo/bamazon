@@ -40,17 +40,17 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
         ]).then(function(key) {
             console.log(key.startorexit);
 
-            // THIS ANSWER MATCHES TO FUNCTION 1 BELOW ON LINE 59
+            // THIS ANSWER MATCHES TO FUNCTION 1 BELOW ON LINE 60
             if (key.startorexit === 'View Inventory') {
                viewInventory();
             }
 
-            // THIS ANSWER EXITS THE PROGRAM
+            // THIS ANSWER EXITS THE PROGRAM - FUNCTION 2
             else if (key.startorexit === 'Exit') {
                 connection.end();
             }
 
-            // THIS ANSWER MATCHES TO FUNCTION 3 BELOW ON LINE ##
+            // THIS ANSWER MATCHES TO FUNCTION 3 BELOW ON LINE 135
             else {
                 function3();
             }
