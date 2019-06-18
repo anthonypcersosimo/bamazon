@@ -42,7 +42,8 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
             // THIS ANSWER MATCHES TO FUNCTION 1 BELOW ON LINE 60
             if (key.startorexit === 'View Inventory') {
-               viewInventory();
+                console.clear();
+                viewInventory();
             }
 
             // THIS ANSWER EXITS THE PROGRAM - FUNCTION 2
@@ -53,6 +54,31 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
             // THIS ANSWER MATCHES TO FUNCTION 3 BELOW ON LINE 135
             else {
                 function3();
+            }
+        });
+    };
+
+    function continueShopping() {
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "continue",
+                message: "Please Make a Selection Below:",
+                choices: ["Continue Shopping",
+                "Exit",
+                ]
+            }
+        // FIGURE OUT WHAT FUNCTION TO RUN
+        ]).then(function(key) {
+            if (key.continue === 'Continue Shopping') {
+                console.clear();
+                viewInventory();
+            }
+            else {
+                console.clear();
+                console.log("Thank you for using the Bamazon Customer App!");
+                console.log("You connection will now be terminated.");
+                connection.end();
             }
         });
     };
@@ -116,16 +142,14 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
                     var query = "UPDATE products SET stock_quantity = " + newUnits + "  WHERE item_id = " + chosenItem;
                     connection.query(query, function(err, res) {
                     if (err) throw err;
-                    console.log(res);
                     console.log("\nPurchase Processed!");
                     console.log("=====================");
                     console.log("Your Order Details:\n");
                     console.log("You Purchased: " + chosenUnits + "x " + chosenProduct + "!" + "\n");
                     console.log("Your total cost was: $" + (currentPrice * chosenUnits) + " dollars.");
                     console.log("=====================\n");
-                    console.log("New Product Quantity Brakdown:\n");
+                    continueShopping();
                     });
-                    viewInventory();
                 };
             });
         });
