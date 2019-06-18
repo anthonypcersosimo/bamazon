@@ -39,32 +39,31 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
                 ]
             }
         // FIGURE OUT WHAT FUNCTION TO RUN
+        // CONVERT TO SWITCH CASE
         ]).then(function(key) {
             console.log(key.startorexit);
 
             // THIS ANSWER MATCHES TO FUNCTION 1
-            if (key.startorexit === '') {
+            if (key.startorexit === 'View Products for Sale') {
                viewInventory();
             }
 
             // THIS ANSWER MATCHES TO FUNCTION 2
-            else if (key.startorexit === '') {
-                
+            else if (key.startorexit === 'View Low Inventory') {
+                viewLowInventory();
             }
             // THIS ANSWER MATCHES TO FUNCTION 3
-            else if (key.startorexit === '') {
-                
+            else if (key.startorexit === 'Add to Inventory') {
+                addToInventory();
             }
             // THIS ANSWER MATCHES TO FUNCTION 4
-            else if (key.startorexit === '') {
-                
+            else if (key.startorexit === 'Add New Product') {
+                addNewProduct();
             }
 
             // THIS ANSWER MATCHES TO FUNCTION 5
             else {
-                console.log("Thank you for using the Bamazon Inventory Management App!");
-                console.log("You connection will now be terminated.")
-                connection.end();
+                terminate();
             }
         });
     };
@@ -93,18 +92,28 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
     // END FUNCTION 1
 
     // BEGIN FUNCTION 2
-   
+    function viewLowInventory() {
+        console.log("Here is the low inventory... :)");
+    };
     // END FUNCTION 2
 
     // BEGIN FUNCTION 3
-    
+    function addToInventory() {
+        console.log("Adding to inventory... :)")
+    };
     // END FUNCTION 3
 
     // BEGIN FUNCTION 4
-    
+    function addNewProduct() {
+        console.log("Adding new product... :)")
+    };
     // END FUNCTION 4
 
     // BEGIN FUNCTION 5
-    
+    function terminate() {
+        console.log("Thank you for using the Bamazon Inventory Management App!");
+        console.log("You connection will now be terminated.")
+        connection.end();
+    };
     // END FUNCTION 5
 });
