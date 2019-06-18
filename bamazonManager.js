@@ -68,6 +68,7 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
             // THIS ANSWER MATCHES TO FUNCTION 5
             else {
+                console.clear();
                 terminate();
             }
         });
@@ -94,6 +95,25 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
             inquireStart();
         });
     };
+    function viewInventory2() {
+        var query = "SELECT * FROM products";
+        connection.query(query, function(err, res) {
+            if (err) throw err;
+            // console.log(res);
+            var table = new Table({
+                head: ['item_id', 'product_name', 'deprtment_name', 'price', 'stock_quantity'],
+                colWidths: [10, 34, 18, 10, 16]
+            });
+            
+            for (var i = 0; i < res.length; i++) {
+                // table is an Array, so you can `push`, `unshift`, `splice` and friends
+                table.push(
+                    [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
+                ); 
+            };
+            console.log(table.toString());
+        });
+    };
     // END FUNCTION 1
 
     // BEGIN FUNCTION 2
@@ -101,7 +121,6 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
         var query = "SELECT * FROM products WHERE stock_quantity <= 5";
         connection.query(query, function(err, res) {
             if (err) throw err;
-            console.log(res);
 
             var table = new Table({
                 head: ['item_id', 'product_name', 'deprtment_name', 'price', 'stock_quantity'],
@@ -114,27 +133,63 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
                     [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
                 ); 
             };
+            console.log("Low products with five or less units!\n\nConsider restocking the following items:");
             console.log(table.toString());
+            inquireStart();
         });
     };
     // END FUNCTION 2
 
     // BEGIN FUNCTION 3
     function addToInventory() {
-        console.log("Adding to inventory... :)")
+        // viewInventory2();
+        // I want to call the function to viewInventory2 so that way you can see the table
+        // when you select the item you want to add... however it skips to the inquirer prompt first and then
+        // displays the table. Could not find a workaround
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "restockId",
+                message: "Please input the ID of the item you would like to order more of:"
+            },
+            {
+                type: "input",
+                name: "restockAmt",
+                message: "How many more units would you like to purchase?"
+            }
+        ]).then(function (answer) {
+            var query = "SELECT * FROM products";
+            connection.query(query, function(err, res) {
+                if (err) throw err;
+
+                var stockId = answer.restockId;
+                stockId = stockId - 1;
+                console.log(stockId);
+                var addQuant = parseInt(answer.restockAmt);
+                var currentQuant = res[stockId].stock_quantity;
+                var newAmt = currentQuant + addQuant;
+                query = "UPDATE products SET stock_quantity = " + (newAmt) + " WHERE item_id = " + answer.restockId;
+                connection.query(query, function(err, res) {
+                    if (err) throw err;
+                    
+                    console.clear();
+                    viewInventory();
+                });
+            });
+        });
     };
     // END FUNCTION 3
 
     // BEGIN FUNCTION 4
     function addNewProduct() {
-        console.log("Adding new product... :)")
+        console.log("Adding new product... :)");
     };
     // END FUNCTION 4
 
     // BEGIN FUNCTION 5
     function terminate() {
         console.log("Thank you for using the Bamazon Inventory Management App!");
-        console.log("You connection will now be terminated.")
+        console.log("You connection will now be terminated.");
         connection.end();
     };
     // END FUNCTION 5
