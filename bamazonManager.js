@@ -182,7 +182,59 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
     // BEGIN FUNCTION 4
     function addNewProduct() {
-        console.log("Adding new product... :)");
+        //prompt questions to get product name, department, cost, and quantity for the new product 
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "newProductName",
+                message: "What is the name of the product you would like to add?"
+            },
+            {
+                type: "list",
+                name: "department",
+                message: "Which department does this product fall into?",
+                choices: ["Electronics", "Beauty", "Shoes", "Sports", "Home", "Books"]
+            },
+            {
+                type: "input",
+                name: "cost",
+                message: "How much does it cost?",
+                validate: function(cost) {
+                    if (!isNaN(cost)) {
+                        return true;
+                    }
+                    console.log("Please enter a valid cost.");
+                    return false;
+                }
+            },
+            {
+                type: "input",
+                name: "iniQuantity",
+                message: "How many do we have?",
+                validate: function(iniQuantity) {
+                    if (!isNaN(iniQuantity)) {
+                        return true;
+                    }
+                    console.log("Please enter a valid quantity.");
+                    return false;
+                }
+            }
+        ]).then(function (answers){
+    
+            //grab the new product info from answer and add to (insert into) the database table
+            var query = "INSERT INTO products SET ?";
+            connection.query(query, {
+                product_name: answers.newProductName,
+                department_name: answers.department,
+                price: answers.cost,
+                stock_quantity: answers.iniQuantity,
+            })
+    
+            //show message that the product has been added.
+            console.log(answers.newProductName + " has been added to Bamazon.");
+    
+            viewInventory();        
+        });     
     };
     // END FUNCTION 4
 
