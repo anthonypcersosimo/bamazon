@@ -98,7 +98,24 @@ fs.readFile("./password.txt", 'utf8', function(err, data) {
 
     // BEGIN FUNCTION 2
     function viewLowInventory() {
-        console.log("Here is the low inventory... :)");
+        var query = "SELECT * FROM products WHERE stock_quantity <= 5";
+        connection.query(query, function(err, res) {
+            if (err) throw err;
+            console.log(res);
+
+            var table = new Table({
+                head: ['item_id', 'product_name', 'deprtment_name', 'price', 'stock_quantity'],
+                colWidths: [10, 34, 18, 10, 16]
+            });
+
+            for (var i = 0; i < res.length; i++) {
+                // table is an Array, so you can `push`, `unshift`, `splice` and friends
+                table.push(
+                    [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
+                ); 
+            };
+            console.log(table.toString());
+        });
     };
     // END FUNCTION 2
 
