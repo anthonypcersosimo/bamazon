@@ -14,7 +14,7 @@ This node app is an Amazon-like storefront which ustilizes the power of NPM and 
 
    * item_id (unique id for each product)
 
-   * product_name (Name of product)
+   * product_name (Name of products)
 
    * department_name
 
